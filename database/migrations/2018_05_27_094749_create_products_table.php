@@ -17,7 +17,7 @@ class CreateProductsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->mediumText('detail');
-            $table->string('year');
+            $table->integer('year');     
             $table->integer('price');
             $table->integer('discount');
             $table->timestamps();
