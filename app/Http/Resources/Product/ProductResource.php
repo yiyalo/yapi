@@ -2,9 +2,9 @@
 
 namespace App\Http\Resources\Product;
 
-use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Resources\Json\Resource;
 
-class ProductResource extends JsonResource
+class ProductResource extends Resource
 {
     /**
      * Transform the resource into an array.
@@ -13,13 +13,20 @@ class ProductResource extends JsonResource
      * @return array
      */
     public function toArray($request)
-    {
+    {   
+        //Correct way to display information by using the transformer
+        
         return [
             'name' => $this->name,
             'description' => $this->detail,
             'pyear' => $this->year,
             'price' => $this->price,
-            'discount' =>$this->discount
+            'discount' =>$this->discount,
+            'totalPrice' => round((1 - ($this->discount/100)) * $this->price, 2),           //Display the total price
+            'rating' => $this->reviews->count() > 0 ? round($this->reviews->sum('rating')/$this->reviews->count(), 2):'No rating yet',          //Display the rating and if no rating yet then display info 
+            'href' => [
+                'reviews' => route('reviews.index', $this->id)              //Return the product reviews.
+            ]
         ];
     }
 }

@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Model\Product;
 use Illuminate\Http\Request;
 use App\Http\Resources\Product\ProductResource;
+use App\Http\Resources\Product\ProductCollection;
 
 class ProductController extends Controller
 {
@@ -15,7 +17,23 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return Product::all();
+        //bad Practice! we dont' return everything in the database to the web
+        //only present what the web needed.
+        //Transformer / resource come into place!
+        //return Product::all();
+
+        //here is the correct version
+        //using the ProductResource as display format! is it good? depends on you!
+        //return ProductResource::collection(Product::all());
+        
+
+        //the format i want 
+        //if we use 'new' then only transform ONE SINGLE data 
+        //return new ProductCollection(Product::all());
+
+        //so...
+        $users = Product::all();
+        return ProductCollection::collection($users);
     }
 
     /**
