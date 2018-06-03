@@ -32,9 +32,8 @@ class ProductController extends Controller
         //return new ProductCollection(Product::all());
 
         //so...
-        $users = Product::all();
-        return ProductCollection::collection($users);
-    }
+        return ProductCollection::collection(Product::paginate(20));
+   }
 
     /**
      * Show the form for creating a new resource.
